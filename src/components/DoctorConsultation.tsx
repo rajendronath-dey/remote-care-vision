@@ -1,24 +1,8 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  Card, 
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle 
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { 
-  Calendar, 
-  Clock, 
-  Star, 
-  Video, 
-  Phone,
-  MessageSquare
-} from "lucide-react";
-
+import { Calendar, Clock, Star, Video, Phone, MessageSquare } from "lucide-react";
 type Doctor = {
   id: number;
   name: string;
@@ -29,45 +13,37 @@ type Doctor = {
   availability: string;
   price: string;
 };
-
-const doctors: Doctor[] = [
-  {
-    id: 1,
-    name: "Dr. Sarah Johnson",
-    specialty: "General Physician",
-    experience: "15 years",
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    availability: "Today, 2:00 PM - 6:00 PM",
-    price: "$45"
-  },
-  {
-    id: 2,
-    name: "Dr. Michael Chen",
-    specialty: "Cardiologist",
-    experience: "12 years",
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    availability: "Tomorrow, 9:00 AM - 1:00 PM",
-    price: "$65"
-  },
-  {
-    id: 3,
-    name: "Dr. Lisa Rodriguez",
-    specialty: "Pediatrician",
-    experience: "10 years",
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    availability: "Today, 3:00 PM - 7:00 PM",
-    price: "$50"
-  }
-];
-
+const doctors: Doctor[] = [{
+  id: 1,
+  name: "Dr. Sarah Johnson",
+  specialty: "General Physician",
+  experience: "15 years",
+  rating: 4.9,
+  image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+  availability: "Today, 2:00 PM - 6:00 PM",
+  price: "$45"
+}, {
+  id: 2,
+  name: "Dr. Michael Chen",
+  specialty: "Cardiologist",
+  experience: "12 years",
+  rating: 4.8,
+  image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+  availability: "Tomorrow, 9:00 AM - 1:00 PM",
+  price: "$65"
+}, {
+  id: 3,
+  name: "Dr. Lisa Rodriguez",
+  specialty: "Pediatrician",
+  experience: "10 years",
+  rating: 4.7,
+  image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+  availability: "Today, 3:00 PM - 7:00 PM",
+  price: "$50"
+}];
 const DoctorConsultation = () => {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
-
-  return (
-    <section id="consultation" className="py-12 bg-blue-50">
+  return <section id="consultation" className="py-12 bg-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -79,14 +55,9 @@ const DoctorConsultation = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.map((doctor) => (
-            <Card key={doctor.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          {doctors.map(doctor => <Card key={doctor.id} className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-48">
-                <img 
-                  src={doctor.image} 
-                  alt={doctor.name}
-                  className="w-full h-full object-cover" 
-                />
+                <img src={doctor.image} alt={doctor.name} className="change the image\n" />
               </div>
               
               <CardHeader>
@@ -134,8 +105,7 @@ const DoctorConsultation = () => {
                   </Button>
                 </div>
               </CardFooter>
-            </Card>
-          ))}
+            </Card>)}
         </div>
 
         <div className="mt-10 text-center">
@@ -144,8 +114,6 @@ const DoctorConsultation = () => {
           </Button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default DoctorConsultation;

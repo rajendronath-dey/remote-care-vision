@@ -1,18 +1,7 @@
-
 import { Button } from "@/components/ui/button";
-import { 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Linkedin, 
-  Mail, 
-  Phone, 
-  MapPin 
-} from "lucide-react";
-
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white">
+  return <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -86,7 +75,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center">
                 <Phone className="h-5 w-5 mr-2 text-medical-light-teal" />
-                <span className="text-gray-400">+1 (800) 123-4567</span>
+                <span className="text-gray-400">+8801521519339</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 text-medical-light-teal" />
@@ -94,7 +83,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 text-medical-light-teal mt-0.5" />
-                <span className="text-gray-400">123 Innovation Drive, Health Valley, CA 92123</span>
+                <span className="text-gray-400">Dhaka Medical College,Dhaka-1211</span>
               </li>
             </ul>
           </div>
@@ -117,8 +106,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
