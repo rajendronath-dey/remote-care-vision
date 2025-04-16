@@ -1,8 +1,12 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Clock, Star, Video, Phone, MessageSquare } from "lucide-react";
+import { Calendar, Clock, Star, Video, Phone, MessageSquare, Pencil, Save, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
 type Doctor = {
   id: number;
   name: string;
@@ -13,6 +17,7 @@ type Doctor = {
   availability: string;
   price: string;
 };
+
 const doctors: Doctor[] = [{
   id: 1,
   name: "Dr. Sarah Johnson",
@@ -41,8 +46,34 @@ const doctors: Doctor[] = [{
   availability: "Today, 3:00 PM - 7:00 PM",
   price: "$50"
 }];
+
 const DoctorConsultation = () => {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+  const [doctorsList, setDoctorsList] = useState<Doctor[]>(doctors);
+  const [editingDoctorId, setEditingDoctorId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState<string>("");
+
+  const handleEdit = (doctor: Doctor) => {
+    setEditingDoctorId(doctor.id);
+    setEditingName(doctor.name);
+  };
+
+  const handleSave = (doctorId: number) => {
+    if (editingName.trim() === "") return;
+
+    setDoctorsList(currentDoctors => 
+      currentDoctors.map(doctor => 
+        doctor.id === doctorId ? { ...doctor, name: editingName } : doctor
+      )
+    );
+    setEditingDoctorId(null);
+    toast.success("Doctor name updated successfully");
+  };
+
+  const handleCancel = () => {
+    setEditingDoctorId(null);
+  };
+
   return <section id="consultation" className="py-12 bg-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
@@ -55,15 +86,43 @@ const DoctorConsultation = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.map(doctor => <Card key={doctor.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+          {doctorsList.map(doctor => <Card key={doctor.id} className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-48">
-                <img src={doctor.image} alt={doctor.name} className="change the image\n" />
+                <img src={doctor.image} alt={doctor.name} className="w-full h-full object-cover" />
               </div>
               
               <CardHeader>
                 <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle>{doctor.name}</CardTitle>
+                  <div className="flex-1">
+                    {editingDoctorId === doctor.id ? (
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          value={editingName} 
+                          onChange={(e) => setEditingName(e.target.value)}
+                          className="flex-1"
+                          placeholder="Doctor name"
+                        />
+                        <Button variant="ghost" size="icon" onClick={() => handleSave(doctor.id)} title="Save">
+                          <Save className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={handleCancel} title="Cancel">
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <CardTitle>{doctor.name}</CardTitle>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => handleEdit(doctor)} 
+                          className="h-6 w-6 ml-2 flex items-center justify-center" 
+                          title="Edit name"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    )}
                     <CardDescription className="mt-1">{doctor.specialty}</CardDescription>
                   </div>
                   <div className="flex items-center bg-amber-100 px-2 py-1 rounded-full">
@@ -116,4 +175,5 @@ const DoctorConsultation = () => {
       </div>
     </section>;
 };
+
 export default DoctorConsultation;
