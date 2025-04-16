@@ -4,6 +4,13 @@ import { User, Session } from '@supabase/supabase-js';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+interface ProfileData {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  updated_at: string;
+}
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -11,6 +18,9 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateProfile: (data: Partial<ProfileData>) => Promise<void>;
+  updateEmail: (email: string) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -89,6 +99,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw error;
     }
   };
+  
+  const updateProfile = async (data: Partial<ProfileData>) => {
+    if (!user) {
+      toast.error('You must be logged in to update your profile');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          ...data,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+
+      if (error) throw error;
+      toast.success('Profile updated successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update profile');
+      throw error;
+    }
+  };
+
+  const updateEmail = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.updateUser({ email });
+      if (error) throw error;
+      toast.success('Email update initiated. Check your inbox for confirmation.');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update email');
+      throw error;
+    }
+  };
+
+  const updatePassword = async (password: string) => {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
+      toast.success('Password updated successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update password');
+      throw error;
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -99,6 +154,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signIn,
         signUp,
         signOut,
+        updateProfile,
+        updateEmail,
+        updatePassword,
       }}
     >
       {children}
